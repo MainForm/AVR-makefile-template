@@ -13,6 +13,6 @@ Environment variables that need to be set in makefile
  - AD_PORT : device that you connect programmer to pc
 
 File tree
---- build : folder for output file
- |- src : folder for source files
- |- include : folder for header files
+ - build : folder for output file
+ - src : folder for source files
+ - include : folder for header files
