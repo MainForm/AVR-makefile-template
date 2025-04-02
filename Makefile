@@ -1,3 +1,16 @@
+MCU = atmega128a
+F_CPU = 16000000UL
+
+# Parts can be found by script avrdude -p ?
+AD_PART = m128a
+# Programmer can be found by script avrdude -c ?
+AD_PROG = stk500v2
+#AD_PROG = jtag1
+
+# Port can be found by script ls /dev/tty.*
+AD_PORT = /dev/tty.usbmodem00000000000011
+#AD_PORT = /dev/tty.usbserial-110
+
 CC := avr-gcc
 CXX := avr-g++
 AD := avrdude
@@ -5,47 +18,42 @@ GDB := avr-gdb
 AVRICE := avarice
 OBJCOPY := avr-objcopy
 
-GDB_IP = localhost
-GDB_PORT = 4242
-
-MCU = atmega128a
-F_CPU = 16000000UL
-
-# Parts can be found by script avrdude -p ?
-AD_PART = m128a
-# Programmer can be found by script avrdude -c ?
-#AD_PROG = stk500v2
-AD_PROG = jtag1
-
-# Port can be found by script ls /dev/tty.*
-#AD_PORT = /dev/tty.usbmodem00000000000011
-AD_PORT = /dev/tty.usbserial-110
-
-CFLAGS = -Wall -Os -g -mmcu=$(MCU) -DF_CPU=$(F_CPU)
-
-SECTIONS = -j .text -j .data
-
-SRC_DIR = ./src
-BUILD_DIR = ./build
-
-SRCS = $(wildcard $(SRC_DIR)/*.c)
-OBJS = $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
-
-INCLUDE_DIR = -I./include
+GDB_IP := localhost
+GDB_PORT := 4242
 
 TARGET = $(BUILD_DIR)/out
 
-.PHONY: all clean debug avarice
+SRC_DIR := ./src
+BUILD_DIR := ./build
+INCLUDE_DIR = -I./include
+
+CFLAGS = -Wall -Os -g -mmcu=$(MCU) -DF_CPU=$(F_CPU)
+
+C_SRCS = $(shell find $(SRC_DIR) -name '*.c')
+C_OBJS = $(C_SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+
+CXX_SRCS = $(shell find $(SRC_DIR) -name '*.cpp')
+CXX_OBJS = $(CXX_SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
+
+SECTIONS := -j .text -j .data
+
+.PHONY: all clean upload debug avarice
 all: $(TARGET).hex
 
 $(TARGET).hex: $(TARGET).bin
 	$(OBJCOPY) $(SECTIONS) -O ihex $< $@
 
-$(TARGET).bin: $(OBJS)
+$(TARGET).bin: $(C_OBJS) $(CXX_OBJS)
 	@mkdir -p $(BUILD_DIR)
-	$(CXX) $(CFLAGS) $(LDFLAGS) $(INCLUDE_DIR) $^ -o $@
- 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CXX) $(CFLAGS) $^ -o $@
+
+# compile .c files to .o files
+$(C_OBJS): $(C_SRCS)
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CFLAGS) $(INCLUDE_DIR) -c $< -o $@
+
+# compile .cpp files to .o files
+$(CXX_OBJS): $(CXX_SRCS)
 	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CFLAGS) $(INCLUDE_DIR) -c $< -o $@
 
