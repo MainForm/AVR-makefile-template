@@ -58,8 +58,8 @@ upload: $(TARGET).hex
 debug: $(TARGET).bin
 # run avarice in background for making gdb server
 # avarice will be killed when connection of gdb is disconnected
-	avarice --jtag $(AD_PORT) :$(GDB_PORT)	&
+	$(AVRICE) --jtag $(AD_PORT) :$(GDB_PORT)	&
 	$(GDB) -ex 'target remote $(GDB_IP):$(GDB_PORT)' $(TARGET).bin
 
 avarice:
-	avarice --jtag $(AD_PORT) :$(GDB_PORT)
+	$(AVRICE) --jtag $(AD_PORT) :$(GDB_PORT)
