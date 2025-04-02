@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/include",
+                "/opt/atmel/avr8-gnu-toolchain-darwin_x86_64/avr/include"
+            ],
+            "defines": [],
+            "compilerPath": "/opt/atmel/avr8-gnu-toolchain-darwin_x86_64/bin/avr-gcc",
+            "compilerArgs": [
+                "-Wall",
+                "-Os",
+                "-g",
+                "-o",
+                "${workspaceFolder}/build/${fileBasenameNoExtension}.hex"
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "macos-gcc-arm64"
+        }
+    ],
+    "version": 4
+}

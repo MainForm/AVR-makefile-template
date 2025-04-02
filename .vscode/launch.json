@@ -1,0 +1,22 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name" : "gcc : debug ",
+            "type" : "cppdbg",
+            "request" : "launch",
+            // Set the binary file that you want to debug
+            "program" : "${workspaceFolder}/build/out.bin",
+            "miDebuggerServerAddress": "localhost:4242",
+            "cwd" : "${workspaceFolder}/src",
+            "externalConsole": false,
+            "stopAtEntry": false,
+            "MIMode": "gdb",
+            // Setup the path to the gdb debugger
+            "miDebuggerPath": "/opt/atmel/avr8-gnu-toolchain-darwin_x86_64/bin/avr-gdb"
+        }
+    ]
+}
