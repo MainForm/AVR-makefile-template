@@ -16,3 +16,10 @@ File tree
  - build : folder for output file
  - src : folder for source files
  - include : folder for header files
+
+commandss
+ - make : build all files
+ - make clean : remove the build folder
+ - make upload : build all files and upload to mcu
+ - make debug : run gdb for debuging the mcu using JTAG
+ - make avarice : open dgb server for vscode
