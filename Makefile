@@ -4,12 +4,12 @@ F_CPU = 16000000UL
 # Parts can be found by script avrdude -p ?
 AD_PART = m128a
 # Programmer can be found by script avrdude -c ?
-AD_PROG = stk500v2
-#AD_PROG = jtag1
+#AD_PROG = stk500v2
+AD_PROG = jtag1
 
 # Port can be found by script ls /dev/tty.*
-AD_PORT = /dev/tty.usbmodem00000000000011
-#AD_PORT = /dev/tty.usbserial-110
+#AD_PORT = /dev/tty.usbmodem00000000000011
+AD_PORT = /dev/tty.usbserial-110
 
 CC := avr-gcc
 CXX := avr-g++
@@ -27,7 +27,9 @@ SRC_DIR := ./src
 BUILD_DIR := ./build
 INCLUDE_DIR = -I./include
 
-CFLAGS = -Wall -Os -g -mmcu=$(MCU) -DF_CPU=$(F_CPU)
+# disable optimization for debugging
+# if it enable optimization, code you wrote can be stop at delay function when you are debugging
+CFLAGS = -Wall -O0 -g -mmcu=$(MCU) -DF_CPU=$(F_CPU)
 
 C_SRCS = $(shell find $(SRC_DIR) -name '*.c')
 C_OBJS = $(C_SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)

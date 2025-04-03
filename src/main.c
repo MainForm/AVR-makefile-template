@@ -12,13 +12,15 @@
 int main(void) {
     // Set PORTB0 as output
     DDRA = 0xFF;
-    PORTA = 0x01;
 
     USART0_Init(MYUBRR);
 
     while (1) {
         PORTA ^= 0x01; // Toggle PORTA0
+
         USART0_Transmit('T');
+        USART0_Transmit('\n');
+
         _delay_ms(1000); // Delay for 1 second
     }
 
